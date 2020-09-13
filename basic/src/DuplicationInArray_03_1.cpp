@@ -17,9 +17,47 @@
 
 #include "cstdio"
 
+
+/*
+ * 时间复杂度为 O(n)
+ * 空间复杂度为 O(n)
+ */
+bool hasDuplication(const int nums[], int len, int *duplication) {
+    if (nums == nullptr || len <= 0)
+        return false;
+    if (duplication == nullptr)
+        return false;
+
+    int *aidArray = new int[len]{0};        // 初始化为0
+
+    // 判断非法输入
+    for (int i = 0; i < len; ++i) {
+        if (nums[i] < 0 || nums[i] >= len)
+            return false;
+    }
+
+    for (int i = 0; i < len; i++) {
+        aidArray[nums[i]]++;
+    }
+
+    // 查找重复数字
+    for (int j = 0; j < len; ++j) {
+        if (aidArray[j] > 1) {
+            *duplication = j;
+            return true;
+        }
+    }
+    return false;
+}
+
+
+/*
+ * 时间复杂度为 O(n)
+ * 空间复杂度为 O(1)
+ */
 bool has_duplication(int nums[], int len, int *duplication) {
     // 空指针
-    if (!nums || len <= 0) {
+    if (!nums || len <= 0 || duplication == nullptr) {
         return false;
     } else {
         // 非法输入
@@ -65,7 +103,7 @@ void test(char *test_name, int input_nums[], int nums_len, const int std[], int 
 
     int duplication;
 
-    bool valid = has_duplication(input_nums, nums_len, &duplication);
+    bool valid = hasDuplication(input_nums, nums_len, &duplication);
 
     // 和标准判定一样
     if (is_valid == valid) {
@@ -142,6 +180,11 @@ void TestAll() {
 
 int main() {
     TestAll();
+    // int *aidArray = new int[5]{0};
+
+    // for (int i = 0; i < 5; ++i) {
+    //     printf("%d", *(aidArray + i));
+    // }
 }
 
 
